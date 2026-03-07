@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "539730271126",
+    "project_id": "shrawaka-236a4",
+    "storage_bucket": "shrawaka-236a4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539730271126:android:da4ce2c53b4c7313eddbb7",
+        "android_client_info": {
+          "package_name": "com.example.shrawaka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_tidi3jXv1tZkdJmPNbyesk4aHbKl65o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
