@@ -1,16 +1,26 @@
-# shrawaka
+# Shrawaka
 
-A new Flutter project.
+Shrawaka is a calm, elderly-friendly Buddhist mobile app built with Flutter. Phase 1 establishes the app foundation, startup flow, splash screen, and a simple home screen focused on readable Buddhist reading categories.
 
-## Getting Started
+## Phase 1
 
-This project is a starting point for a Flutter application.
+- Clean app shell with centralized routing
+- Warm, accessible light theme
+- Splash screen with automatic navigation
+- Home screen with reusable category cards
+- Firebase initialized for future phases without auth or Firestore features
 
-A few resources to get you started if this is your first Flutter project:
+## Structure
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```text
+lib/
+  app/
+  core/
+  features/
+  firebase_options.dart
+  main.dart
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Next
+
+Phase 2 can add category detail flows, reading screens, backend-driven content, and accessibility refinements on top of this foundation.
