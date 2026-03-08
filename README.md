@@ -1,26 +1,56 @@
 # Shrawaka
 
-Shrawaka is a calm, elderly-friendly Buddhist mobile app built with Flutter. Phase 1 establishes the app foundation, startup flow, splash screen, and a simple home screen focused on readable Buddhist reading categories.
+Shrawaka is a calm, elderly-friendly Buddhist mobile app. This repo is now a React Native app built with Expo and TypeScript, focused in Phase 1 on a simple, readable foundation for elderly users.
 
-## Phase 1
+## Implemented in Phase 1
 
-- Clean app shell with centralized routing
+- Expo + TypeScript app foundation
+- Clean folder structure for app config, theme, constants, and features
 - Warm, accessible light theme
-- Splash screen with automatic navigation
-- Home screen with reusable category cards
-- Firebase initialized for future phases without auth or Firestore features
+- Simple splash screen with automatic transition
+- Home screen with Sinhala-first UI
+- Reusable large category cards for:
+  - `ජාතක කතා`
+  - `පන්සිය පනස් ජාතක`
+  - `දහම් කරුණු`
+- Placeholder feedback when cards are tapped
 
-## Structure
+## Folder Structure
 
 ```text
-lib/
+assets/
+App.tsx
+app.json
+index.ts
+package.json
+src/
   app/
-  core/
+    navigation/
+  constants/
   features/
-  firebase_options.dart
-  main.dart
+    home/
+      components/
+      data/
+      screens/
+    splash/
+      screens/
+  theme/
+tsconfig.json
 ```
 
-## Next
+## Packages
 
-Phase 2 can add category detail flows, reading screens, backend-driven content, and accessibility refinements on top of this foundation.
+- `expo`: managed React Native runtime and tooling
+- `react-native`: core mobile UI framework
+- `expo-status-bar`: status bar control
+- `@react-navigation/native`: app navigation foundation
+- `@react-navigation/native-stack`: splash-to-home stack navigation
+- `react-native-safe-area-context`: safe area handling
+- `react-native-screens`: native screen optimizations for navigation
+
+## Phase 2
+
+- Add category detail screens
+- Define content models and repository layer
+- Introduce backend integration for Buddhist content
+- Add real reading flows, search/filtering, and audio features later
