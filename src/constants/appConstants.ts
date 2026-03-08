@@ -8,4 +8,6 @@ export const AppConstants = {
   radiusMedium: 18,
   cardMinHeight: 132,
   listItemMinHeight: 144,
+  iconButtonSize: 52,
+  settingsRowMinHeight: 96,
 } as const;

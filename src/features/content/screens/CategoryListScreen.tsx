@@ -3,11 +3,11 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
+import { ScreenHeader } from '../../../components/ScreenHeader';
 import { AppConstants } from '../../../constants/appConstants';
 import { AppStrings } from '../../../constants/appStrings';
-import { AppColors } from '../../../theme/colors';
 import { Typography } from '../../../theme/typography';
-import { ContentScreenHeader } from '../components/ContentScreenHeader';
+import { useAppTheme } from '../../../theme/useAppTheme';
 import { ReadingListCard } from '../components/ReadingListCard';
 import { getCategoryByKey, getReadingsByCategory } from '../selectors';
 
@@ -22,12 +22,14 @@ export function CategoryListScreen({
 }: CategoryListScreenProps) {
   const category = getCategoryByKey(route.params.categoryKey);
   const readings = getReadingsByCategory(route.params.categoryKey);
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
 
   if (!category) {
     return (
       <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
         <View style={styles.fallbackContainer}>
-          <ContentScreenHeader
+          <ScreenHeader
             title={AppStrings.categoryNotFoundTitle}
             description={AppStrings.categoryNotFoundMessage}
             onBackPress={() => navigation.navigate(Routes.home)}
@@ -55,7 +57,7 @@ export function CategoryListScreen({
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <View>
-            <ContentScreenHeader
+            <ScreenHeader
               title={category.title}
               description={category.description}
               onBackPress={() => navigation.goBack()}
@@ -80,41 +82,43 @@ export function CategoryListScreen({
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
-  content: {
-    paddingHorizontal: AppConstants.screenPadding,
-    paddingTop: AppConstants.screenPadding,
-    paddingBottom: 32,
-  },
-  heading: {
-    ...Typography.title,
-    color: AppColors.textPrimary,
-    marginBottom: 16,
-  },
-  separator: {
-    height: AppConstants.cardSpacing,
-  },
-  fallbackContainer: {
-    flex: 1,
-    paddingHorizontal: AppConstants.screenPadding,
-    paddingTop: AppConstants.screenPadding,
-  },
-  primaryAction: {
-    alignSelf: 'flex-start',
-    backgroundColor: AppColors.primary,
-    borderRadius: AppConstants.radiusMedium,
-    paddingHorizontal: 18,
-    paddingVertical: 14,
-  },
-  primaryActionPressed: {
-    opacity: 0.92,
-  },
-  primaryActionLabel: {
-    ...Typography.label,
-    color: AppColors.white,
-  },
-});
+function createStyles(theme: ReturnType<typeof useAppTheme>) {
+  return StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    content: {
+      paddingHorizontal: AppConstants.screenPadding,
+      paddingTop: AppConstants.screenPadding,
+      paddingBottom: 32,
+    },
+    heading: {
+      ...Typography.title,
+      color: theme.colors.textPrimary,
+      marginBottom: 16,
+    },
+    separator: {
+      height: AppConstants.cardSpacing,
+    },
+    fallbackContainer: {
+      flex: 1,
+      paddingHorizontal: AppConstants.screenPadding,
+      paddingTop: AppConstants.screenPadding,
+    },
+    primaryAction: {
+      alignSelf: 'flex-start',
+      backgroundColor: theme.colors.primary,
+      borderRadius: AppConstants.radiusMedium,
+      paddingHorizontal: 18,
+      paddingVertical: 14,
+    },
+    primaryActionPressed: {
+      opacity: 0.92,
+    },
+    primaryActionLabel: {
+      ...Typography.label,
+      color: theme.colors.onPrimary,
+    },
+  });
+}

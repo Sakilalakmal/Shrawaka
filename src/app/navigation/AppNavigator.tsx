@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CategoryListScreen } from '../../features/content/screens/CategoryListScreen';
 import { ReadingDetailScreen } from '../../features/content/screens/ReadingDetailScreen';
 import { HomeScreen } from '../../features/home/screens/HomeScreen';
+import { SettingsScreen } from '../../features/preferences/screens/SettingsScreen';
 import { SplashScreen } from '../../features/splash/screens/SplashScreen';
 import { Routes, RootStackParamList } from './routes';
 
@@ -19,6 +20,7 @@ export function AppNavigator() {
     >
       <Stack.Screen name={Routes.splash} component={SplashScreen} />
       <Stack.Screen name={Routes.home} component={HomeScreen} />
+      <Stack.Screen name={Routes.settings} component={SettingsScreen} />
       <Stack.Screen
         name={Routes.categoryList}
         component={CategoryListScreen}

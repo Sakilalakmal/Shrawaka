@@ -1,26 +1,25 @@
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
 import { AppNavigator } from './src/app/navigation/AppNavigator';
-import { AppColors } from './src/theme/colors';
+import { PreferencesProvider } from './src/features/preferences/PreferencesContext';
+import { useAppTheme } from './src/theme/useAppTheme';
 
-const navigationTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: AppColors.background,
-    card: AppColors.surface,
-    primary: AppColors.primary,
-    text: AppColors.textPrimary,
-    border: AppColors.border,
-  },
-};
+function AppContent() {
+  const theme = useAppTheme();
+
+  return (
+    <NavigationContainer theme={theme.navigationTheme}>
+      <StatusBar style={theme.statusBarStyle} />
+      <AppNavigator />
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <StatusBar style="dark" />
-      <AppNavigator />
-    </NavigationContainer>
+    <PreferencesProvider>
+      <AppContent />
+    </PreferencesProvider>
   );
 }
