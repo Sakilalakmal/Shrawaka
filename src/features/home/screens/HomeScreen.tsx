@@ -1,5 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,8 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
 import { AppConstants } from '../../../constants/appConstants';
 import { AppStrings } from '../../../constants/appStrings';
-import { AppColors } from '../../../theme/colors';
 import { Typography } from '../../../theme/typography';
+import { useAppTheme } from '../../../theme/useAppTheme';
 import { getAllCategories } from '../../content/selectors';
 import { HomeCategoryCard } from '../components/HomeCategoryCard';
 
@@ -22,6 +24,8 @@ type HomeScreenProps = NativeStackScreenProps<
 
 export function HomeScreen({ navigation }: HomeScreenProps) {
   const categories = getAllCategories();
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
@@ -29,7 +33,24 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.appTitle}>{AppStrings.appName}</Text>
+        <View style={styles.topBar}>
+          <Text style={styles.appTitle}>{AppStrings.appName}</Text>
+          <Pressable
+            accessibilityLabel={AppStrings.homeSettingsLabel}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate(Routes.settings)}
+            style={({ pressed }) => [
+              styles.settingsButton,
+              pressed && styles.settingsButtonPressed,
+            ]}
+          >
+            <MaterialIcons
+              color={theme.colors.primaryDeep}
+              name="settings"
+              size={26}
+            />
+          </Pressable>
+        </View>
 
         <View style={styles.heroCard}>
           <Text style={styles.greeting}>{AppStrings.homeGreeting}</Text>
@@ -56,43 +77,63 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
-  content: {
-    padding: AppConstants.screenPadding,
-    paddingBottom: 32,
-  },
-  appTitle: {
-    ...Typography.headline,
-    color: AppColors.textPrimary,
-    marginBottom: 20,
-  },
-  heroCard: {
-    backgroundColor: AppColors.surface,
-    borderRadius: AppConstants.radiusLarge,
-    borderWidth: 1,
-    borderColor: AppColors.border,
-    padding: 24,
-    marginBottom: 18,
-  },
-  greeting: {
-    ...Typography.headline,
-    color: AppColors.textPrimary,
-    marginBottom: 12,
-  },
-  intro: {
-    ...Typography.bodyLarge,
-    color: AppColors.textSecondary,
-  },
-  sectionTitle: {
-    ...Typography.title,
-    color: AppColors.textPrimary,
-    marginBottom: 16,
-  },
-  cardList: {
-    gap: AppConstants.cardSpacing,
-  },
-});
+function createStyles(theme: ReturnType<typeof useAppTheme>) {
+  return StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    content: {
+      padding: AppConstants.screenPadding,
+      paddingBottom: 32,
+    },
+    topBar: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+    },
+    appTitle: {
+      ...Typography.headline,
+      color: theme.colors.textPrimary,
+    },
+    settingsButton: {
+      width: AppConstants.iconButtonSize,
+      height: AppConstants.iconButtonSize,
+      borderRadius: AppConstants.radiusMedium,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    settingsButtonPressed: {
+      opacity: 0.9,
+    },
+    heroCard: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: AppConstants.radiusLarge,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      padding: 24,
+      marginBottom: 18,
+    },
+    greeting: {
+      ...Typography.headline,
+      color: theme.colors.textPrimary,
+      marginBottom: 12,
+    },
+    intro: {
+      ...Typography.bodyLarge,
+      color: theme.colors.textSecondary,
+    },
+    sectionTitle: {
+      ...Typography.title,
+      color: theme.colors.textPrimary,
+      marginBottom: 16,
+    },
+    cardList: {
+      gap: AppConstants.cardSpacing,
+    },
+  });
+}

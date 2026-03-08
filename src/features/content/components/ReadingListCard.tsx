@@ -2,8 +2,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { AppConstants } from '../../../constants/appConstants';
-import { AppColors } from '../../../theme/colors';
 import { Typography } from '../../../theme/typography';
+import { useAppTheme } from '../../../theme/useAppTheme';
 import { ReadingItem } from '../types';
 
 type ReadingListCardProps = {
@@ -12,6 +12,9 @@ type ReadingListCardProps = {
 };
 
 export function ReadingListCard({ reading, onPress }: ReadingListCardProps) {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
+
   return (
     <Pressable
       accessibilityLabel={reading.title}
@@ -29,7 +32,7 @@ export function ReadingListCard({ reading, onPress }: ReadingListCardProps) {
 
       <View style={styles.iconWrap}>
         <MaterialIcons
-          color={AppColors.primaryDeep}
+          color={theme.colors.primaryDeep}
           name="arrow-forward-ios"
           size={18}
         />
@@ -38,45 +41,47 @@ export function ReadingListCard({ reading, onPress }: ReadingListCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    minHeight: AppConstants.listItemMinHeight,
-    borderRadius: AppConstants.radiusLarge,
-    borderWidth: 1,
-    borderColor: AppColors.border,
-    backgroundColor: AppColors.surface,
-    paddingHorizontal: 20,
-    paddingVertical: 18,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cardPressed: {
-    opacity: 0.92,
-  },
-  content: {
-    flex: 1,
-    paddingRight: 16,
-  },
-  title: {
-    ...Typography.title,
-    color: AppColors.textPrimary,
-    marginBottom: 8,
-  },
-  subtitle: {
-    ...Typography.label,
-    color: AppColors.primaryDeep,
-    marginBottom: 10,
-  },
-  preview: {
-    ...Typography.bodyLarge,
-    color: AppColors.textSecondary,
-  },
-  iconWrap: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: AppColors.surfaceSoft,
-  },
-});
+function createStyles(theme: ReturnType<typeof useAppTheme>) {
+  return StyleSheet.create({
+    card: {
+      minHeight: AppConstants.listItemMinHeight,
+      borderRadius: AppConstants.radiusLarge,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+      paddingHorizontal: 20,
+      paddingVertical: 18,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    cardPressed: {
+      opacity: 0.92,
+    },
+    content: {
+      flex: 1,
+      paddingRight: 16,
+    },
+    title: {
+      ...Typography.title,
+      color: theme.colors.textPrimary,
+      marginBottom: 8,
+    },
+    subtitle: {
+      ...Typography.label,
+      color: theme.colors.primaryDeep,
+      marginBottom: 10,
+    },
+    preview: {
+      ...Typography.bodyLarge,
+      color: theme.colors.textSecondary,
+    },
+    iconWrap: {
+      width: 42,
+      height: 42,
+      borderRadius: 21,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.surfaceSoft,
+    },
+  });
+}

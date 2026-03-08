@@ -7,8 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Routes, RootStackParamList } from '../../../app/navigation/routes';
 import { AppConstants } from '../../../constants/appConstants';
 import { AppStrings } from '../../../constants/appStrings';
-import { AppColors } from '../../../theme/colors';
 import { Typography } from '../../../theme/typography';
+import { useAppTheme } from '../../../theme/useAppTheme';
 
 type SplashScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -16,6 +16,9 @@ type SplashScreenProps = NativeStackScreenProps<
 >;
 
 export function SplashScreen({ navigation }: SplashScreenProps) {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace(Routes.home);
@@ -29,7 +32,7 @@ export function SplashScreen({ navigation }: SplashScreenProps) {
       <View style={styles.container}>
         <View style={styles.iconBox}>
           <MaterialIcons
-            color={AppColors.primaryDeep}
+            color={theme.colors.primaryDeep}
             name="self-improvement"
             size={48}
           />
@@ -41,38 +44,40 @@ export function SplashScreen({ navigation }: SplashScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 28,
-    backgroundColor: AppColors.background,
-  },
-  iconBox: {
-    width: 92,
-    height: 92,
-    borderRadius: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: AppColors.surface,
-    borderWidth: 1,
-    borderColor: AppColors.border,
-    marginBottom: 28,
-  },
-  title: {
-    ...Typography.display,
-    color: AppColors.textPrimary,
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  subtitle: {
-    ...Typography.bodyLarge,
-    color: AppColors.textSecondary,
-    textAlign: 'center',
-  },
-});
+function createStyles(theme: ReturnType<typeof useAppTheme>) {
+  return StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 28,
+      backgroundColor: theme.colors.background,
+    },
+    iconBox: {
+      width: 92,
+      height: 92,
+      borderRadius: 28,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.surface,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      marginBottom: 28,
+    },
+    title: {
+      ...Typography.display,
+      color: theme.colors.textPrimary,
+      textAlign: 'center',
+      marginBottom: 12,
+    },
+    subtitle: {
+      ...Typography.bodyLarge,
+      color: theme.colors.textSecondary,
+      textAlign: 'center',
+    },
+  });
+}
