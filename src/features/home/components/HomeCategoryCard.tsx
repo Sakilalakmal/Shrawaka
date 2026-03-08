@@ -4,10 +4,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { AppConstants } from '../../../constants/appConstants';
 import { AppColors } from '../../../theme/colors';
 import { Typography } from '../../../theme/typography';
-import { HomeCategory } from '../data/homeCategories';
+import { ContentCategory } from '../../content/types';
 
 type HomeCategoryCardProps = {
-  category: HomeCategory;
+  category: ContentCategory;
   onPress: () => void;
 };
 
