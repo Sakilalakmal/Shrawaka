@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -9,6 +10,7 @@ import { AppStrings } from '../../../constants/appStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
 import { usePreferences } from '../../preferences/PreferencesContext';
+import { getCategoryPresentation } from '../categoryPresentation';
 import { getCategoryByKey, getReadingById } from '../selectors';
 
 type ReadingDetailScreenProps = NativeStackScreenProps<
@@ -24,7 +26,16 @@ export function ReadingDetailScreen({
   const category = reading ? getCategoryByKey(reading.categoryKey) : undefined;
   const theme = useAppTheme();
   const { preferences } = usePreferences();
-  const styles = createStyles(theme, preferences.readingComfortMode);
+  const palette =
+    reading && category
+      ? getCategoryPresentation(category.key, theme.colors)
+      : undefined;
+  const styles = createStyles(
+    theme,
+    preferences.readingComfortMode,
+    palette?.background,
+    palette?.accent
+  );
 
   if (!reading) {
     return (
@@ -64,11 +75,24 @@ export function ReadingDetailScreen({
           onBackPress={() => navigation.goBack()}
         />
 
+        {category ? (
+          <View style={styles.heroCard}>
+            <View style={styles.heroBlob} />
+            <View style={styles.heroIconWrap}>
+              <MaterialIcons
+                color={theme.colors.primaryDeep}
+                name={category.icon}
+                size={28}
+              />
+            </View>
+            <Text style={styles.heroTitle}>{reading.title}</Text>
+            {reading.subtitle ? (
+              <Text style={styles.heroSubtitle}>{reading.subtitle}</Text>
+            ) : null}
+          </View>
+        ) : null}
+
         <View style={styles.articleCard}>
-          <Text style={styles.title}>{reading.title}</Text>
-          {reading.subtitle ? (
-            <Text style={styles.subtitle}>{reading.subtitle}</Text>
-          ) : null}
           <Text style={styles.body}>{reading.body}</Text>
         </View>
       </ScrollView>
@@ -78,7 +102,9 @@ export function ReadingDetailScreen({
 
 function createStyles(
   theme: ReturnType<typeof useAppTheme>,
-  isReadingComfortMode: boolean
+  isReadingComfortMode: boolean,
+  heroBackground?: string,
+  heroAccent?: string
 ) {
   const articleSurface = isReadingComfortMode
     ? theme.colors.readingSurfaceComfort
@@ -100,9 +126,47 @@ function createStyles(
       paddingTop: AppConstants.screenPadding,
       paddingBottom: 40,
     },
+    heroCard: {
+      backgroundColor: heroBackground ?? theme.colors.surfaceSoft,
+      borderRadius: 32,
+      paddingHorizontal: 24,
+      paddingVertical: 22,
+      marginBottom: 18,
+      overflow: 'hidden',
+    },
+    heroBlob: {
+      position: 'absolute',
+      width: 188,
+      height: 188,
+      borderRadius: 999,
+      backgroundColor: heroAccent ?? theme.colors.surfaceMuted,
+      top: -64,
+      right: -18,
+      opacity: 0.78,
+    },
+    heroIconWrap: {
+      width: 58,
+      height: 58,
+      borderRadius: 999,
+      backgroundColor: 'rgba(255,255,255,0.76)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 18,
+    },
+    heroTitle: {
+      ...Typography.title,
+      color: theme.colors.textPrimary,
+      marginBottom: 8,
+      paddingRight: 54,
+    },
+    heroSubtitle: {
+      ...Typography.body,
+      color: theme.colors.textSecondary,
+      paddingRight: 64,
+    },
     articleCard: {
       backgroundColor: articleSurface,
-      borderRadius: AppConstants.radiusLarge,
+      borderRadius: 32,
       borderWidth: 1,
       borderColor: isReadingComfortMode
         ? theme.colors.readingBorderComfort
@@ -110,19 +174,9 @@ function createStyles(
       paddingHorizontal: isReadingComfortMode ? 26 : 22,
       paddingVertical: isReadingComfortMode ? 30 : 24,
     },
-    title: {
-      ...Typography.headline,
-      color: theme.colors.textPrimary,
-      marginBottom: 12,
-    },
-    subtitle: {
-      ...Typography.bodyLarge,
-      color: theme.colors.primaryDeep,
-      marginBottom: 18,
-    },
     body: {
-      fontSize: isReadingComfortMode ? 24 : 21,
-      lineHeight: isReadingComfortMode ? 42 : 37,
+      fontSize: isReadingComfortMode ? 23 : 20,
+      lineHeight: isReadingComfortMode ? 40 : 35,
       fontWeight: '400',
       color: theme.colors.readingText,
     },
@@ -134,8 +188,8 @@ function createStyles(
     primaryAction: {
       alignSelf: 'flex-start',
       backgroundColor: theme.colors.primary,
-      borderRadius: AppConstants.radiusMedium,
-      paddingHorizontal: 18,
+      borderRadius: 999,
+      paddingHorizontal: 20,
       paddingVertical: 14,
     },
     primaryActionPressed: {

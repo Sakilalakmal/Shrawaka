@@ -30,9 +30,13 @@ export function SettingsScreen({ navigation }: SettingsScreenProps) {
       >
         <ScreenHeader
           title={AppStrings.settingsTitle}
-          description={AppStrings.settingsIntro}
           onBackPress={() => navigation.goBack()}
         />
+
+        <View style={styles.introCard}>
+          <View style={styles.introBlob} />
+          <Text style={styles.introDescription}>{AppStrings.settingsIntro}</Text>
+        </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{AppStrings.settingsSectionTitle}</Text>
@@ -69,10 +73,31 @@ function createStyles(theme: ReturnType<typeof useAppTheme>) {
       padding: AppConstants.screenPadding,
       paddingBottom: 32,
     },
-    section: {
-      borderRadius: AppConstants.radiusLarge,
+    introCard: {
+      borderRadius: 32,
       backgroundColor: theme.colors.surfaceSoft,
-      padding: 18,
+      padding: 24,
+      marginBottom: 18,
+      overflow: 'hidden',
+    },
+    introBlob: {
+      position: 'absolute',
+      width: 188,
+      height: 188,
+      borderRadius: 999,
+      backgroundColor: theme.colors.accentBlush,
+      top: -72,
+      right: -28,
+      opacity: 0.82,
+    },
+    introDescription: {
+      ...Typography.bodyLarge,
+      color: theme.colors.textSecondary,
+      paddingRight: 56,
+    },
+    section: {
+      borderRadius: 32,
+      backgroundColor: 'transparent',
     },
     sectionTitle: {
       ...Typography.title,

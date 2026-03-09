@@ -56,9 +56,7 @@ function createStyles(
   return StyleSheet.create({
     row: {
       minHeight: AppConstants.settingsRowMinHeight,
-      borderRadius: AppConstants.radiusLarge,
-      borderWidth: 1,
-      borderColor: theme.colors.border,
+      borderRadius: 30,
       backgroundColor: theme.colors.settingsRowBackground,
       paddingHorizontal: 20,
       paddingVertical: 18,
@@ -66,6 +64,11 @@ function createStyles(
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 20,
+      shadowColor: theme.colors.shadow,
+      shadowOpacity: 0.08,
+      shadowRadius: 14,
+      shadowOffset: { width: 0, height: 8 },
+      elevation: 2,
     },
     rowPressed: {
       opacity: 0.94,

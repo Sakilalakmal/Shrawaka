@@ -36,7 +36,6 @@ export function ScreenHeader({
           name="arrow-back-ios-new"
           size={18}
         />
-        <Text style={styles.backLabel}>{AppStrings.contentBackLabel}</Text>
       </Pressable>
 
       <Text style={styles.title}>{title}</Text>
@@ -52,23 +51,23 @@ function createStyles(theme: ReturnType<typeof useAppTheme>) {
     },
     backButton: {
       alignSelf: 'flex-start',
-      flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center',
+      width: 46,
+      height: 46,
       backgroundColor: theme.colors.surface,
       borderWidth: 1,
       borderColor: theme.colors.border,
-      borderRadius: AppConstants.radiusMedium,
-      paddingHorizontal: 14,
-      paddingVertical: 12,
-      marginBottom: 20,
+      borderRadius: 23,
+      marginBottom: 22,
+      shadowColor: theme.colors.shadow,
+      shadowOpacity: 0.12,
+      shadowRadius: 14,
+      shadowOffset: { width: 0, height: 8 },
+      elevation: 2,
     },
     backButtonPressed: {
       opacity: 0.9,
-    },
-    backLabel: {
-      ...Typography.label,
-      color: theme.colors.primaryDeep,
-      marginLeft: 8,
     },
     title: {
       ...Typography.headline,
