@@ -2,10 +2,11 @@ import { DarkTheme, DefaultTheme, Theme } from '@react-navigation/native';
 
 import { ThemeMode } from '../features/preferences/types';
 
-type ThemeColors = {
+export type ThemeColors = {
   background: string;
   surface: string;
   surfaceSoft: string;
+  surfaceMuted: string;
   textPrimary: string;
   textSecondary: string;
   border: string;
@@ -13,6 +14,11 @@ type ThemeColors = {
   primaryDeep: string;
   onPrimary: string;
   accentSoft: string;
+  accentSky: string;
+  accentBlush: string;
+  accentSun: string;
+  accentMint: string;
+  accentLilac: string;
   shadow: string;
   settingsRowBackground: string;
   switchTrackInactive: string;
@@ -25,6 +31,9 @@ type ThemeColors = {
   readingBorder: string;
   readingBorderComfort: string;
   readingText: string;
+  splashBackdrop: string;
+  splashPanel: string;
+  splashDot: string;
 };
 
 export type AppTheme = {
@@ -35,53 +44,71 @@ export type AppTheme = {
 };
 
 const lightColors: ThemeColors = {
-  background: '#F8F3EA',
-  surface: '#FFFCF7',
-  surfaceSoft: '#F3E8D2',
-  textPrimary: '#2F261B',
-  textSecondary: '#6B5B45',
-  border: '#E3D7C1',
-  primary: '#C98A22',
-  primaryDeep: '#9A6715',
+  background: '#EEF1FB',
+  surface: '#FCFBF7',
+  surfaceSoft: '#DCE6F8',
+  surfaceMuted: '#F6E3DE',
+  textPrimary: '#23306D',
+  textSecondary: '#65719A',
+  border: '#D9DFF0',
+  primary: '#4A59A8',
+  primaryDeep: '#243272',
   onPrimary: '#FFFFFF',
-  accentSoft: 'rgba(201, 138, 34, 0.14)',
-  shadow: 'rgba(47, 38, 27, 0.18)',
-  settingsRowBackground: '#FFFCF7',
-  switchTrackInactive: '#D7C6AA',
-  switchTrackActive: '#D8AA59',
-  switchThumb: '#FFF8ED',
-  readingBackground: '#F8F3EA',
-  readingBackgroundComfort: '#F5EEDA',
-  readingSurface: '#FFFCF7',
-  readingSurfaceComfort: '#FAF1D8',
-  readingBorder: '#E3D7C1',
-  readingBorderComfort: '#E0CBA4',
-  readingText: '#2F261B',
+  accentSoft: 'rgba(74, 89, 168, 0.12)',
+  accentSky: '#C6D5F1',
+  accentBlush: '#F3D5D2',
+  accentSun: '#EEE7A8',
+  accentMint: '#BDDCD5',
+  accentLilac: '#DBDEF8',
+  shadow: 'rgba(35, 48, 108, 0.16)',
+  settingsRowBackground: '#FFFFFF',
+  switchTrackInactive: '#CCD5EC',
+  switchTrackActive: '#7E8AC8',
+  switchThumb: '#FFFFFF',
+  readingBackground: '#EEF1FB',
+  readingBackgroundComfort: '#F8F1E8',
+  readingSurface: '#FCFBF7',
+  readingSurfaceComfort: '#FFF9F1',
+  readingBorder: '#D9DFF0',
+  readingBorderComfort: '#EBDCC1',
+  readingText: '#25306A',
+  splashBackdrop: '#4C5AA5',
+  splashPanel: '#FCFBF7',
+  splashDot: '#243272',
 };
 
 const darkColors: ThemeColors = {
-  background: '#1D1915',
-  surface: '#2A241F',
-  surfaceSoft: '#342D26',
-  textPrimary: '#F4E8D5',
-  textSecondary: '#D0BFA9',
-  border: '#4B4035',
-  primary: '#C8953A',
-  primaryDeep: '#E0B463',
-  onPrimary: '#1F1912',
-  accentSoft: 'rgba(224, 180, 99, 0.14)',
-  shadow: 'rgba(0, 0, 0, 0.35)',
-  settingsRowBackground: '#302922',
-  switchTrackInactive: '#5D5043',
-  switchTrackActive: '#B98932',
-  switchThumb: '#FFF5E6',
-  readingBackground: '#1D1915',
-  readingBackgroundComfort: '#221B15',
-  readingSurface: '#2A241F',
-  readingSurfaceComfort: '#34271E',
-  readingBorder: '#4B4035',
-  readingBorderComfort: '#5A4735',
-  readingText: '#F2E6D5',
+  background: '#17203D',
+  surface: '#1F2A4E',
+  surfaceSoft: '#33467A',
+  surfaceMuted: '#43345F',
+  textPrimary: '#F4F5FD',
+  textSecondary: '#C4CCE8',
+  border: '#3C4E83',
+  primary: '#A6B7F0',
+  primaryDeep: '#E8EDFF',
+  onPrimary: '#17203D',
+  accentSoft: 'rgba(166, 183, 240, 0.14)',
+  accentSky: '#425D95',
+  accentBlush: '#6A4D67',
+  accentSun: '#7E7840',
+  accentMint: '#456D69',
+  accentLilac: '#524B86',
+  shadow: 'rgba(5, 9, 24, 0.38)',
+  settingsRowBackground: '#233159',
+  switchTrackInactive: '#506392',
+  switchTrackActive: '#8EA0DD',
+  switchThumb: '#F7F8FF',
+  readingBackground: '#17203D',
+  readingBackgroundComfort: '#221C2D',
+  readingSurface: '#1F2A4E',
+  readingSurfaceComfort: '#2C2440',
+  readingBorder: '#3C4E83',
+  readingBorderComfort: '#58486D',
+  readingText: '#EFF2FF',
+  splashBackdrop: '#131A32',
+  splashPanel: '#1F2A4E',
+  splashDot: '#E8EDFF',
 };
 
 function createNavigationTheme(
