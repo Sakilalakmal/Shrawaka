@@ -5,9 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
 import { ScreenHeader } from '../../../components/ScreenHeader';
 import { AppConstants } from '../../../constants/appConstants';
-import { AppStrings } from '../../../constants/appStrings';
+import { useAppStrings } from '../../../localization/useAppStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
+import { LanguageToggle } from '../components/LanguageToggle';
 import { SettingToggleRow } from '../components/SettingToggleRow';
 import { usePreferences } from '../PreferencesContext';
 
@@ -18,8 +19,9 @@ type SettingsScreenProps = NativeStackScreenProps<
 
 export function SettingsScreen({ navigation }: SettingsScreenProps) {
   const theme = useAppTheme();
+  const strings = useAppStrings();
   const styles = createStyles(theme);
-  const { preferences, setReadingComfortMode, setThemeMode } =
+  const { preferences, setLanguage, setReadingComfortMode, setThemeMode } =
     usePreferences();
 
   return (
@@ -29,30 +31,46 @@ export function SettingsScreen({ navigation }: SettingsScreenProps) {
         showsVerticalScrollIndicator={false}
       >
         <ScreenHeader
-          title={AppStrings.settingsTitle}
+          title={strings.settingsTitle}
           onBackPress={() => navigation.goBack()}
         />
 
         <View style={styles.introCard}>
           <View style={styles.introBlob} />
-          <Text style={styles.introDescription}>{AppStrings.settingsIntro}</Text>
+          <Text style={styles.introDescription}>{strings.settingsIntro}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{AppStrings.settingsSectionTitle}</Text>
+          <Text style={styles.sectionTitle}>{strings.appearanceSectionTitle}</Text>
+          <View style={styles.languageCard}>
+            <Text style={styles.languageTitle}>{strings.languageToggleTitle}</Text>
+            <Text style={styles.languageDescription}>
+              {strings.languageToggleDescription}
+            </Text>
+            <LanguageToggle
+              value={preferences.language}
+              onChange={setLanguage}
+              sinhalaLabel={strings.languageSinhala}
+              englishLabel={strings.languageEnglish}
+            />
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{strings.settingsSectionTitle}</Text>
 
           <View style={styles.rowGroup}>
             <SettingToggleRow
-              title={AppStrings.darkModeTitle}
-              description={AppStrings.darkModeDescription}
+              title={strings.darkModeTitle}
+              description={strings.darkModeDescription}
               value={preferences.themeMode === 'dark'}
               onValueChange={(enabled) =>
                 setThemeMode(enabled ? 'dark' : 'light')
               }
             />
             <SettingToggleRow
-              title={AppStrings.readingComfortModeTitle}
-              description={AppStrings.readingComfortModeDescription}
+              title={strings.readingComfortModeTitle}
+              description={strings.readingComfortModeDescription}
               value={preferences.readingComfortMode}
               onValueChange={setReadingComfortMode}
             />
@@ -103,6 +121,26 @@ function createStyles(theme: ReturnType<typeof useAppTheme>) {
       ...Typography.title,
       color: theme.colors.textPrimary,
       marginBottom: 16,
+    },
+    languageCard: {
+      borderRadius: 30,
+      backgroundColor: theme.colors.surface,
+      padding: 20,
+      shadowColor: theme.colors.shadow,
+      shadowOpacity: 0.08,
+      shadowRadius: 14,
+      shadowOffset: { width: 0, height: 8 },
+      elevation: 2,
+    },
+    languageTitle: {
+      ...Typography.title,
+      color: theme.colors.textPrimary,
+      marginBottom: 8,
+    },
+    languageDescription: {
+      ...Typography.body,
+      color: theme.colors.textSecondary,
+      marginBottom: 18,
     },
     rowGroup: {
       gap: AppConstants.cardSpacing,
