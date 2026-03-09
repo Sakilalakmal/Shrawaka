@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { AppConstants } from '../constants/appConstants';
-import { AppStrings } from '../constants/appStrings';
+import { useAppStrings } from '../localization/useAppStrings';
 import { Typography } from '../theme/typography';
 import { useAppTheme } from '../theme/useAppTheme';
 
@@ -18,12 +18,13 @@ export function ScreenHeader({
   onBackPress,
 }: ScreenHeaderProps) {
   const theme = useAppTheme();
+  const strings = useAppStrings();
   const styles = createStyles(theme);
 
   return (
     <View style={styles.container}>
       <Pressable
-        accessibilityLabel={AppStrings.contentBackLabel}
+        accessibilityLabel={strings.contentBackLabel}
         accessibilityRole="button"
         onPress={onBackPress}
         style={({ pressed }) => [

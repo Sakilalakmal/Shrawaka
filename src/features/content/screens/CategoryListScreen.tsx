@@ -6,9 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
 import { ScreenHeader } from '../../../components/ScreenHeader';
 import { AppConstants } from '../../../constants/appConstants';
-import { AppStrings } from '../../../constants/appStrings';
+import { useAppStrings } from '../../../localization/useAppStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
+import { usePreferences } from '../../preferences/PreferencesContext';
 import { getCategoryPresentation } from '../categoryPresentation';
 import { ReadingListCard } from '../components/ReadingListCard';
 import { getCategoryByKey, getReadingsByCategory } from '../selectors';
@@ -22,9 +23,14 @@ export function CategoryListScreen({
   navigation,
   route,
 }: CategoryListScreenProps) {
-  const category = getCategoryByKey(route.params.categoryKey);
-  const readings = getReadingsByCategory(route.params.categoryKey);
   const theme = useAppTheme();
+  const strings = useAppStrings();
+  const { preferences } = usePreferences();
+  const category = getCategoryByKey(route.params.categoryKey, preferences.language);
+  const readings = getReadingsByCategory(
+    route.params.categoryKey,
+    preferences.language
+  );
   const palette = category
     ? getCategoryPresentation(category.key, theme.colors)
     : undefined;
@@ -35,8 +41,8 @@ export function CategoryListScreen({
       <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
         <View style={styles.fallbackContainer}>
           <ScreenHeader
-            title={AppStrings.categoryNotFoundTitle}
-            description={AppStrings.categoryNotFoundMessage}
+            title={strings.categoryNotFoundTitle}
+            description={strings.categoryNotFoundMessage}
             onBackPress={() => navigation.navigate(Routes.home)}
           />
           <Pressable
@@ -47,7 +53,7 @@ export function CategoryListScreen({
               pressed && styles.primaryActionPressed,
             ]}
           >
-            <Text style={styles.primaryActionLabel}>{AppStrings.returnHome}</Text>
+            <Text style={styles.primaryActionLabel}>{strings.returnHome}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -81,7 +87,7 @@ export function CategoryListScreen({
                 {String(readings.length).padStart(2, '0')}
               </Text>
             </View>
-            <Text style={styles.heading}>{AppStrings.readingListHeading}</Text>
+            <Text style={styles.heading}>{strings.readingListHeading}</Text>
           </View>
         }
         renderItem={({ item }) => (

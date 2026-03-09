@@ -8,12 +8,18 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 
 import { loadPreferences, savePreferences } from './storage';
-import { AppPreferences, ThemeMode, defaultAppPreferences } from './types';
+import {
+  AppPreferences,
+  LanguageCode,
+  ThemeMode,
+  defaultAppPreferences,
+} from './types';
 
 type PreferencesContextValue = {
   preferences: AppPreferences;
   setThemeMode: (themeMode: ThemeMode) => void;
   setReadingComfortMode: (enabled: boolean) => void;
+  setLanguage: (language: LanguageCode) => void;
 };
 
 const PreferencesContext = createContext<PreferencesContextValue | null>(null);
@@ -65,6 +71,13 @@ export function PreferencesProvider({ children }: PreferencesProviderProps) {
     });
   }
 
+  function setLanguage(language: LanguageCode) {
+    updatePreferences({
+      ...(preferences ?? defaultAppPreferences),
+      language,
+    });
+  }
+
   if (!preferences) {
     return null;
   }
@@ -75,6 +88,7 @@ export function PreferencesProvider({ children }: PreferencesProviderProps) {
         preferences,
         setThemeMode,
         setReadingComfortMode,
+        setLanguage,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Routes, RootStackParamList } from '../../../app/navigation/routes';
 import { AppConstants } from '../../../constants/appConstants';
-import { AppStrings } from '../../../constants/appStrings';
+import { useAppStrings } from '../../../localization/useAppStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
 
@@ -17,6 +17,7 @@ type SplashScreenProps = NativeStackScreenProps<
 
 export function SplashScreen({ navigation }: SplashScreenProps) {
   const theme = useAppTheme();
+  const strings = useAppStrings();
   const styles = createStyles(theme);
 
   useEffect(() => {
@@ -48,8 +49,8 @@ export function SplashScreen({ navigation }: SplashScreenProps) {
           </View>
 
           <View style={styles.copyBlock}>
-            <Text style={styles.title}>{AppStrings.appName}</Text>
-            <Text style={styles.subtitle}>{AppStrings.splashTagline}</Text>
+            <Text style={styles.title}>{strings.appName}</Text>
+            <Text style={styles.subtitle}>{strings.splashTagline}</Text>
           </View>
 
           <View style={styles.cornerBadge}>

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
 import { ScreenHeader } from '../../../components/ScreenHeader';
 import { AppConstants } from '../../../constants/appConstants';
-import { AppStrings } from '../../../constants/appStrings';
+import { useAppStrings } from '../../../localization/useAppStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
 import { usePreferences } from '../../preferences/PreferencesContext';
@@ -22,10 +22,13 @@ export function ReadingDetailScreen({
   navigation,
   route,
 }: ReadingDetailScreenProps) {
-  const reading = getReadingById(route.params.readingId);
-  const category = reading ? getCategoryByKey(reading.categoryKey) : undefined;
   const theme = useAppTheme();
+  const strings = useAppStrings();
   const { preferences } = usePreferences();
+  const reading = getReadingById(route.params.readingId, preferences.language);
+  const category = reading
+    ? getCategoryByKey(reading.categoryKey, preferences.language)
+    : undefined;
   const palette =
     reading && category
       ? getCategoryPresentation(category.key, theme.colors)
@@ -42,8 +45,8 @@ export function ReadingDetailScreen({
       <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
         <View style={styles.fallbackContainer}>
           <ScreenHeader
-            title={AppStrings.readingNotFoundTitle}
-            description={AppStrings.readingNotFoundMessage}
+            title={strings.readingNotFoundTitle}
+            description={strings.readingNotFoundMessage}
             onBackPress={() => navigation.goBack()}
           />
           <Pressable
@@ -55,7 +58,7 @@ export function ReadingDetailScreen({
             ]}
           >
             <Text style={styles.primaryActionLabel}>
-              {AppStrings.returnToList}
+              {strings.returnToList}
             </Text>
           </Pressable>
         </View>
@@ -71,7 +74,7 @@ export function ReadingDetailScreen({
       >
         <ScreenHeader
           title={category?.title ?? reading.title}
-          description={AppStrings.readingDetailIntro}
+          description={strings.readingDetailIntro}
           onBackPress={() => navigation.goBack()}
         />
 

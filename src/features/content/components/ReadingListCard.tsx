@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { AppConstants } from '../../../constants/appConstants';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
+import { usePreferences } from '../../preferences/PreferencesContext';
 import { getCategoryPresentation } from '../categoryPresentation';
 import { getCategoryByKey } from '../selectors';
 import { ReadingItem } from '../types';
@@ -15,7 +16,8 @@ type ReadingListCardProps = {
 
 export function ReadingListCard({ reading, onPress }: ReadingListCardProps) {
   const theme = useAppTheme();
-  const category = getCategoryByKey(reading.categoryKey);
+  const { preferences } = usePreferences();
+  const category = getCategoryByKey(reading.categoryKey, preferences.language);
   const palette = getCategoryPresentation(reading.categoryKey, theme.colors);
   const styles = createStyles(theme, palette.background, palette.accent);
 

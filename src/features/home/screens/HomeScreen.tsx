@@ -12,9 +12,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList, Routes } from '../../../app/navigation/routes';
 import { AppConstants } from '../../../constants/appConstants';
-import { AppStrings } from '../../../constants/appStrings';
+import { useAppStrings } from '../../../localization/useAppStrings';
 import { Typography } from '../../../theme/typography';
 import { useAppTheme } from '../../../theme/useAppTheme';
+import { usePreferences } from '../../preferences/PreferencesContext';
+import { LanguageToggle } from '../../preferences/components/LanguageToggle';
 import { getAllCategories } from '../../content/selectors';
 import { HomeCategoryCard } from '../components/HomeCategoryCard';
 
@@ -24,8 +26,10 @@ type HomeScreenProps = NativeStackScreenProps<
 >;
 
 export function HomeScreen({ navigation }: HomeScreenProps) {
-  const categories = getAllCategories();
   const theme = useAppTheme();
+  const strings = useAppStrings();
+  const { preferences, setLanguage } = usePreferences();
+  const categories = getAllCategories(preferences.language);
   const styles = createStyles(theme);
 
   return (
@@ -36,24 +40,32 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
       >
         <View style={styles.topBar}>
           <View>
-            <Text style={styles.eyebrow}>{AppStrings.appName}</Text>
-            <Text style={styles.appTitle}>{AppStrings.homeGreeting}</Text>
+            <Text style={styles.eyebrow}>{strings.appName}</Text>
+            <Text style={styles.appTitle}>{strings.homeGreeting}</Text>
           </View>
-          <Pressable
-            accessibilityLabel={AppStrings.homeSettingsLabel}
-            accessibilityRole="button"
-            onPress={() => navigation.navigate(Routes.settings)}
-            style={({ pressed }) => [
-              styles.settingsButton,
-              pressed && styles.settingsButtonPressed,
-            ]}
-          >
-            <MaterialIcons
-              color={theme.colors.primaryDeep}
-              name="settings"
-              size={26}
+          <View style={styles.topControls}>
+            <LanguageToggle
+              value={preferences.language}
+              onChange={setLanguage}
+              sinhalaLabel={strings.languageSinhala}
+              englishLabel={strings.languageEnglish}
             />
-          </Pressable>
+            <Pressable
+              accessibilityLabel={strings.homeSettingsLabel}
+              accessibilityRole="button"
+              onPress={() => navigation.navigate(Routes.settings)}
+              style={({ pressed }) => [
+                styles.settingsButton,
+                pressed && styles.settingsButtonPressed,
+              ]}
+            >
+              <MaterialIcons
+                color={theme.colors.primaryDeep}
+                name="settings"
+                size={26}
+              />
+            </Pressable>
+          </View>
         </View>
 
         <View style={styles.heroCard}>
@@ -61,8 +73,8 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
           <View style={styles.heroBlobSecondary} />
           <View style={styles.heroContent}>
             <View style={styles.heroTextWrap}>
-              <Text style={styles.greeting}>{AppStrings.appName}</Text>
-              <Text style={styles.intro}>{AppStrings.homeIntro}</Text>
+              <Text style={styles.greeting}>{strings.appName}</Text>
+              <Text style={styles.intro}>{strings.homeIntro}</Text>
             </View>
 
             <View style={styles.heroArt}>
@@ -78,7 +90,7 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>{AppStrings.homeSectionTitle}</Text>
+        <Text style={styles.sectionTitle}>{strings.homeSectionTitle}</Text>
 
         <View style={styles.cardList}>
           {categories.map((category, index) => (
@@ -110,10 +122,14 @@ function createStyles(theme: ReturnType<typeof useAppTheme>) {
       paddingBottom: 36,
     },
     topBar: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
+      gap: 18,
       marginBottom: 24,
+    },
+    topControls: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 12,
     },
     eyebrow: {
       ...Typography.label,
